@@ -1,0 +1,426 @@
+.phoneContainer {
+  width: 375px;
+  height: 812px;
+  background: #000;
+  border-radius: 40px;
+  padding: 8px; /* Reduced padding to make the inner screen fit better */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden; /* Ensure inner content doesn't overflow phone shape */
+  display: flex; /* Added to help center the screen if needed, though screen itself is full */
+  flex-direction: column; /* Ensures status bar and content stack */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Added from body */
+}
+
+.screen {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border-radius: 32px; /* Matches inner radius of typical phone mockups */
+  overflow: hidden;
+  position: absolute; /* Changed to absolute for layering screens */
+  top: 0;
+  left: 0;
+  display: none;
+  flex-direction: column; /* Added for consistency, display:flex will be on .active */
+  opacity: 0; /* Start hidden for transitions */
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.screen.active {
+  display: flex;
+  /* flex-direction: column; already set above */
+  opacity: 1;
+  visibility: visible;
+  z-index: 1; /* Bring active screen to front */
+}
+
+.statusBar {
+  height: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24); /* From original */
+  color: white;
+  flex-shrink: 0; /* Added to prevent shrinking */
+  border-top-left-radius: 32px; /* Match screen radius */
+  border-top-right-radius: 32px; /* Match screen radius */
+}
+
+.content {
+  flex: 1; /* Takes remaining space */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto; /* Allow scrolling if content overflows */
+  padding: 20px; /* Default padding for content areas */
+}
+
+.welcomeBg {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  text-align: center;
+  padding: 60px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* position: relative; */ /* Already on .content */
+}
+
+.logo {
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(10px);
+}
+
+.welcomeTitle {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+
+.welcomeSubtitle {
+  font-size: 18px;
+  opacity: 0.9;
+  line-height: 1.4;
+  margin-bottom: 40px;
+}
+
+.featureScreen {
+  padding: 40px 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Adjusted from original, might need per-screen logic */
+  /* background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); /* Specific to screen2 */
+  color: white;
+}
+
+.featureIcon {
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  margin: 0 auto 30px;
+  backdrop-filter: blur(10px);
+}
+
+.featureTitle {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.featureDescription {
+  font-size: 16px;
+  line-height: 1.5;
+  opacity: 0.9;
+  margin-bottom: 40px;
+}
+
+.featureDemo {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px 0;
+  backdrop-filter: blur(10px);
+}
+
+.demoFoodImage {
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(45deg, #ffa726, #ff7043);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.demoStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.demoStat {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+  backdrop-filter: blur(5px);
+}
+
+.demoStatLabel {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-bottom: 5px;
+}
+
+.demoStatValue {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.goalsScreen {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  padding: 20px 30px 80px; /* Top padding changed from 40px to 20px */
+}
+
+.goalsTitle {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px; /* Reduced from 30px */
+}
+
+.goalOption {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.goalOption:hover,
+.goalOptionSelected {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.goalOptionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.goalOptionDesc {
+  font-size: 14px;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.permissionScreen {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+}
+
+.permissionIcon {
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  margin: 0 auto 30px;
+  backdrop-filter: blur(10px);
+}
+
+.permissionTitle {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.permissionDescription {
+  font-size: 16px;
+  line-height: 1.5;
+  opacity: 0.9;
+  margin-bottom: 30px;
+}
+
+.permissionBenefits {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(10px);
+}
+
+.benefitItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.benefitItem:last-child {
+  margin-bottom: 0;
+}
+
+.benefitIcon {
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-size: 16px;
+}
+
+.benefitText {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.btn {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+.btnPrimary {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  margin-bottom: 15px; /* From original .btn-primary */
+}
+
+.btnPrimary:hover {
+  background: white;
+}
+
+.btnSecondary {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.5); /* From original .btn-secondary */
+}
+.btnSecondary:hover { /* Added for consistency if needed */
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navContainer {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center; /* Original was center, not space-between */
+  align-items: center;
+  gap: 20px; /* Original had gap here */
+  padding: 0 20px; /* Keep padding for edges if needed */
+  z-index: 10;
+}
+
+.navDots {
+  display: flex;
+  gap: 8px;
+  /* Removed absolute positioning as navContainer is now centered */
+}
+
+.navDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  cursor: pointer; /* Added for clickable dots */
+}
+
+.navDot.active {
+  background: white;
+  width: 24px; /* Original width */
+  border-radius: 4px; /* Original radius */
+}
+
+.navBtn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 10px 20px; /* Original padding */
+  border-radius: 20px; /* Original radius */
+  font-size: 14px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.navBtn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.navBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Animations */
+@keyframes slideInRightAnimation { /* Renamed to avoid conflict if global keyframes exist */
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeftAnimation { /* Renamed */
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slideInRight {
+  animation: slideInRightAnimation 0.5s ease-out forwards;
+}
+
+.slideInLeft {
+  animation: slideInLeftAnimation 0.5s ease-out forwards;
+}
+
+/* Responsive adjustments - This should ideally be in globals.css or handled by Tailwind if used elsewhere */
+/* For now, keeping it here as it was in the original HTML for the component */
+@media (max-width: 400px) {
+  .phoneContainer {
+    width: 95vw;
+    height: 90vh; /* Be cautious with vh units inside flex containers */
+  }
+} 
