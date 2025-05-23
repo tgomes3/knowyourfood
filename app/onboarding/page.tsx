@@ -133,7 +133,7 @@ export default function Onboarding() {
       </div>
 
       {/* Screen 3: Learn & Improve Feature */}
-      <div className={getScreenClassName(3)} style={{ background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' }}>
+      <div className={getScreenClassName(3)} style={{ background: 'linear-gradient(135deg, #CA94FF 0%, #A34EC7 100%)' }}>
         <div className={styles.statusBar}>
           <span>9:41</span>
           <span>100%</span>
