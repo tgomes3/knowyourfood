@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google"; // Remove this line
 import "./globals.css";
 import { GeistSans } from 'geist/font/sans'; // Import GeistSans
 import { GeistMono } from 'geist/font/mono';   // Import GeistMono
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] }); // Remove this line
 
 export const metadata: Metadata = {
   title: "Know Your Food",

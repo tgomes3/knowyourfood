@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from './onboarding.module.css';
 
 interface Goal {
@@ -23,28 +23,28 @@ export default function Onboarding() {
   const [animationDirection, setAnimationDirection] = useState<'right' | 'left'>('right');
   const totalScreens = 5;
 
-  const showScreen = (screenNum: number, direction: 'right' | 'left') => {
+  const showScreen = useCallback((screenNum: number, direction: 'right' | 'left') => {
     setAnimationDirection(direction);
     setCurrentScreen(screenNum);
-  };
+  }, []);
 
-  const handleNextScreen = () => {
+  const handleNextScreen = useCallback(() => {
     if (currentScreen < totalScreens) {
-      if (currentScreen === 4 && !selectedGoalId) return; // Prevent moving from goals screen if no goal selected
+      if (currentScreen === 4 && !selectedGoalId) return;
       showScreen(currentScreen + 1, 'right');
     }
-  };
+  }, [currentScreen, selectedGoalId, showScreen, totalScreens]);
 
-  const handlePrevScreen = () => {
+  const handlePrevScreen = useCallback(() => {
     if (currentScreen > 1) {
       showScreen(currentScreen - 1, 'left');
     }
-  };
+  }, [currentScreen, showScreen]);
 
-  const handleGoToScreen = (screenNum: number) => {
+  const handleGoToScreen = useCallback((screenNum: number) => {
     const direction = screenNum > currentScreen ? 'right' : 'left';
     showScreen(screenNum, direction);
-  };
+  }, [currentScreen, showScreen]);
 
   const handleSelectGoal = (goalId: string) => {
     setSelectedGoalId(goalId);
@@ -65,7 +65,6 @@ export default function Onboarding() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' && currentScreen < totalScreens) {
-        // Allow progression from screen 4 only if a goal is selected or it's not screen 4
         if (currentScreen === 4 && !selectedGoalId) return;
         handleNextScreen();
       } else if (e.key === 'ArrowLeft' && currentScreen > 1) {
@@ -77,7 +76,7 @@ export default function Onboarding() {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentScreen, selectedGoalId]); // Re-attach if these change
+  }, [currentScreen, selectedGoalId, handleNextScreen, handlePrevScreen, totalScreens]);
 
   const getScreenClassName = (screenNum: number) => {
     let className = styles.screen;
@@ -165,7 +164,7 @@ export default function Onboarding() {
           <span>100%</span>
         </div>
         <div className={`${styles.content} ${styles.goalsScreen}`}>
-          <h2 className={styles.goalsTitle}>What's your goal?</h2>
+          <h2 className={styles.goalsTitle}>What&apos;s your goal?</h2>
           {goals.map(goal => (
             <div
               key={goal.id}
