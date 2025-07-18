@@ -21,7 +21,7 @@ export default function Onboarding() {
   const [currentScreen, setCurrentScreen] = useState(1);
   const [selectedGoalId, setSelectedGoalId] = useState<string | null>(null);
   const [animationDirection, setAnimationDirection] = useState<'right' | 'left'>('right');
-  const totalScreens = 5;
+  const totalScreens = 4;
 
   const showScreen = useCallback((screenNum: number, direction: 'right' | 'left') => {
     setAnimationDirection(direction);
@@ -32,6 +32,9 @@ export default function Onboarding() {
     if (currentScreen < totalScreens) {
       if (currentScreen === 4 && !selectedGoalId) return;
       showScreen(currentScreen + 1, 'right');
+    } else if (currentScreen === totalScreens) {
+      // Navigate to main app when reaching the last screen
+      window.location.href = '/';
     }
   }, [currentScreen, selectedGoalId, showScreen, totalScreens]);
 
@@ -42,6 +45,11 @@ export default function Onboarding() {
   }, [currentScreen, showScreen]);
 
   const handleGoToScreen = useCallback((screenNum: number) => {
+    if (screenNum === 5) {
+      // Skip to main app if trying to go to camera screen
+      window.location.href = '/';
+      return;
+    }
     const direction = screenNum > currentScreen ? 'right' : 'left';
     showScreen(screenNum, direction);
   }, [currentScreen, showScreen]);
@@ -50,17 +58,7 @@ export default function Onboarding() {
     setSelectedGoalId(goalId);
   };
 
-  const handleRequestCameraPermission = () => {
-    setTimeout(() => {
-      alert('Camera permission granted! You can now start using Know Your Food to build your nutrition intuition.');
-      // Navigate to main app or next step
-    }, 500);
-  };
 
-  const handleSkipPermission = () => {
-    alert('You can enable camera access later in Settings. Welcome to Know Your Food!');
-    // Navigate to main app or next step
-  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -104,7 +102,7 @@ export default function Onboarding() {
           <h1 className={styles.welcomeTitle}>Know Your Food</h1>
           <p className={styles.welcomeSubtitle}>Train your eye to see nutrition in every bite</p>
           <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleNextScreen}>Get Started</button>
-          <button className={`${styles.btn} ${styles.btnSecondary}`} onClick={() => handleGoToScreen(5)}>Skip Intro</button>
+          <button className={`${styles.btn} ${styles.btnSecondary}`} onClick={() => window.location.href = '/'}>Skip Intro</button>
         </div>
       </div>
 
@@ -178,33 +176,15 @@ export default function Onboarding() {
           <button
             className={`${styles.btn} ${styles.btnPrimary}`}
             style={{ marginTop: '15px', opacity: isNextDisabled ? 0.5 : 1 }}
-            onClick={handleNextScreen}
+            onClick={() => window.location.href = '/'}
             disabled={isNextDisabled}
           >
-            Continue
+            Get Started
           </button>
         </div>
       </div>
 
-      {/* Screen 5: Camera Permission */}
-      <div className={getScreenClassName(5)}>
-        <div className={styles.statusBar}>
-          <span>9:41</span>
-          <span>100%</span>
-        </div>
-        <div className={`${styles.content} ${styles.permissionScreen}`}>
-          <div className={styles.permissionIcon}>📸</div>
-          <h2 className={styles.permissionTitle}>Camera Access</h2>
-          <p className={styles.permissionDescription}>We need camera access to let you take photos of food for our visual nutrition challenges.</p>
-          <div className={styles.permissionBenefits}>
-            <div className={styles.benefitItem}><div className={styles.benefitIcon}>📱</div><div className={styles.benefitText}>Take photos of your meals instantly</div></div>
-            <div className={styles.benefitItem}><div className={styles.benefitIcon}>🎯</div><div className={styles.benefitText}>Practice with real-world food scenarios</div></div>
-            <div className={styles.benefitItem}><div className={styles.benefitIcon}>🔒</div><div className={styles.benefitText}>Photos are processed locally and never stored</div></div>
-          </div>
-          <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={handleRequestCameraPermission}>Allow Camera Access</button>
-          <button className={`${styles.btn} ${styles.btnSecondary}`} onClick={handleSkipPermission}>Maybe Later</button>
-        </div>
-      </div>
+
 
       {/* Navigation */}
       <div className={styles.navContainer}>
@@ -216,7 +196,7 @@ export default function Onboarding() {
             <div
               key={i}
               className={`${styles.navDot} ${currentScreen === i + 1 ? styles.active : ''}`}
-              onClick={() => handleGoToScreen(i + 1)} // Allow direct navigation by clicking dots
+              onClick={() => handleGoToScreen(i + 1)}
             />
           ))}
         </div>

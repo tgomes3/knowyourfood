@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body 
-        className={`antialiased min-h-screen flex justify-center items-center bg-gradient-to-br from-[#667eea] to-[#764ba2]`}
+        className={`antialiased min-h-screen flex justify-center items-center bg-black`}
       >
         {children}
       </body>
